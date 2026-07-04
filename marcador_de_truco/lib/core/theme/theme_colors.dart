@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ThemeColors {
-  ThemeData myThemeApp = ThemeData(
+  // O static permite acessar direto como: ThemeColors.myThemeApp
+  static ThemeData myThemeApp = ThemeData(
     colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.red, secondary: Colors.black),
     textTheme: const TextTheme(
       // Agrupamentos de estilo de texto para o app.
