@@ -12,7 +12,7 @@ class AppTruco extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: "Marcador de Truco",
       theme: ThemeColors.myThemeApp,
       home: HomeScreen(),
