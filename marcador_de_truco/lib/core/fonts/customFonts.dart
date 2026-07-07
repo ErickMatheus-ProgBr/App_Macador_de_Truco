@@ -10,10 +10,14 @@ class Customfonts {
   static TextStyle subTitle = GoogleFonts.changa(fontSize: 11, fontWeight: FontWeight.w500);
 
   // Estilo para o campo de nome das equipes
-  static TextStyle timeNameStyle = GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold);
+  static TextStyle timeNameStyle = GoogleFonts.poppins(fontSize: 39, fontWeight: FontWeight.bold);
 
   // Pontos
-  static TextStyle pointsStyle = GoogleFonts.poppins(fontSize: 33, fontWeight: FontWeight.bold);
+  static TextStyle pointsStyle = GoogleFonts.oswald(
+    fontSize: 85,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.5,
+  );
 
   // Botões de decrementar e incrementar
   static TextStyle counter = GoogleFonts.bungee(fontSize: 14, fontWeight: FontWeight.bold);
