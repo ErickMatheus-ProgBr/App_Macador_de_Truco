@@ -10,7 +10,7 @@ class CustomMediaquery {
   // Função: Retorna uma porcentagem exata de largura
   // Exemplo: se passar 50, pega metade da largura da tela do aparelho
   static double widthPercentage(BuildContext context, double percentage) {
-    return (MediaQuery.of(context).size.width * percentage) / 100;
+    return (MediaQuery.of(context).size.width * percentage) / 50;
   }
 
   // Retorna uma porcentagem exata da altura
