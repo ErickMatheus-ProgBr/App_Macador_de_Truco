@@ -14,6 +14,44 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              child: Text("Paleta de cores"),
+              decoration: BoxDecoration(color: Colors.white),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
+
       body: Row(
         children: [
           Expanded(
@@ -42,32 +80,42 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: Customfonts.pointsStyle.fontSize,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Column(
                       children: [
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                            minimumSize: const Size(40, 10),
+                            elevation: 8,
+                            shadowColor: Colors.black,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
                           child: Text(
-                            "-1", //
+                            "+1", //
                             style: TextStyle(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 18,
+                              fontSize: 24,
                             ),
                           ),
                         ),
+
+                        SizedBox(height: 15),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                            elevation: 8,
+                            shadowColor: Colors.black,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
                           child: Text(
-                            "+1",
+                            "-1",
                             style: TextStyle(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 18,
+                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -103,32 +151,43 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: Customfonts.pointsStyle.fontSize,
                       ),
                     ),
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                            minimumSize: const Size(40, 10),
+                            elevation: 8,
+                            shadowColor: const Color(0xFF727272),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
                           child: Text(
-                            "-1", //
+                            "+1", //
                             style: TextStyle(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 18,
+                              fontSize: 24,
                             ),
                           ),
                         ),
+                        SizedBox(height: 12),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                            minimumSize: const Size(40, 10),
+                            elevation: 8,
+                            shadowColor: const Color(0xFF727272),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
                           child: Text(
-                            "+1",
+                            "-1",
                             style: TextStyle(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 18,
+                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -139,6 +198,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          // Stack(
+          //   children: [
+          //     ElevatedButton(onPressed: (){},
+          //     child: Text("Trucoooo!")),
+          //   ],
+          // )
         ],
       ),
     );
