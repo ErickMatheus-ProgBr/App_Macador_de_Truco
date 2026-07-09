@@ -13,14 +13,14 @@ class Customfonts {
   static TextStyle timeNameStyle = GoogleFonts.poppins(fontSize: 39, fontWeight: FontWeight.bold);
 
   // Pontos
-  static TextStyle pointsStyle = GoogleFonts.oswald(
-    fontSize: 85,
+  static TextStyle pointsStyle = GoogleFonts.roboto(
+    fontSize: 125,
     fontWeight: FontWeight.bold,
     letterSpacing: 1.5,
   );
 
   // Botões de decrementar e incrementar
-  static TextStyle counter = GoogleFonts.bungee(fontSize: 14, fontWeight: FontWeight.bold);
+  static TextStyle counter = GoogleFonts.bungee(fontSize: 26, fontWeight: FontWeight.bold);
 
   // Historico
   static TextStyle baseboard = GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold);
