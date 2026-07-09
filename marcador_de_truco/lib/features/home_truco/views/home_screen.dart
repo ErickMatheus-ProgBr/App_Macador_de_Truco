@@ -14,18 +14,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   leading: Builder(
+      //     builder: (context) {
+      //       return IconButton(
+      //         icon: const Icon(Icons.menu),
+      //         onPressed: () {
+      //           Scaffold.of(context).openDrawer();
+      //         },
+      //       );
+      //     },
+      //   ),
+      // ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -65,21 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Time A",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.titleLarge?.color,
-                        fontSize: Customfonts.timeNameStyle.fontSize,
-                      ),
-                    ),
+                    Text("Time A", style: Customfonts.timeNameStyle),
 
-                    Text(
-                      "02",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                        fontSize: Customfonts.pointsStyle.fontSize,
-                      ),
-                    ),
+                    Text("02", style: Customfonts.pointsStyle),
                     Column(
                       children: [
                         ElevatedButton(
@@ -94,9 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Text(
                             "+1", //
-                            style: TextStyle(
+                            style: Customfonts.counter.copyWith(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -113,9 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Text(
                             "-1",
-                            style: TextStyle(
+                            style: Customfonts.counter.copyWith(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -137,20 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Time B",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.titleLarge?.color,
-                        fontSize: Customfonts.timeNameStyle.fontSize,
-                      ),
-                    ),
-                    Text(
-                      "07",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                        fontSize: Customfonts.pointsStyle.fontSize,
-                      ),
-                    ),
+                    Text("Time B", style: Customfonts.timeNameStyle),
+                    Text("07", style: Customfonts.pointsStyle),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -166,9 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Text(
                             "+1", //
-                            style: TextStyle(
+                            style: Customfonts.counter.copyWith(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -185,9 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Text(
                             "-1",
-                            style: TextStyle(
+                            style: Customfonts.counter.copyWith(
                               color: TextTheme.of(context).bodyLarge?.color,
-                              fontSize: 24,
                             ),
                           ),
                         ),
