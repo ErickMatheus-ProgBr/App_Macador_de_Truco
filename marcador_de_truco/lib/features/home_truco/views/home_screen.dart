@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/core/fonts/customFonts.dart';
 import 'package:marcador_de_truco/core/theme/theme_colors.dart';
+
 import 'package:marcador_de_truco/core/utils/media_query.dart';
+import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final txt = context.watch<ScoreCounter>();
+
     return Scaffold(
       // appBar: AppBar(
       //   leading: Builder(
@@ -52,130 +59,143 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      body: Row(
+      body: Stack(
         children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: ThemeColors.myThemeApp.colorScheme.primary,
-              margin: EdgeInsets.zero,
-              width: CustomMediaquery.width(context),
-              height: CustomMediaquery.heightPorcentage(context, 100),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Time A", style: Customfonts.timeNameStyle),
-
-                    Text("02", style: Customfonts.pointsStyle),
-                    Column(
+          Positioned(child: Text("EE")),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: ThemeColors.myThemeApp.colorScheme.primary,
+                  margin: EdgeInsets.zero,
+                  width: CustomMediaquery.width(context),
+                  height: CustomMediaquery.heightPorcentage(context, 100),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(83, 219, 217, 217),
-                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            minimumSize: const Size(40, 10),
-                            elevation: 8,
-                            shadowColor: Colors.black,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                          ),
-                          child: Text(
-                            "+1", //
-                            style: Customfonts.counter.copyWith(
-                              color: TextTheme.of(context).bodyLarge?.color,
-                            ),
-                          ),
-                        ),
+                        Text("Time A", style: Customfonts.timeNameStyle),
 
-                        SizedBox(height: 15),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(83, 219, 217, 217),
-                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            elevation: 8,
-                            shadowColor: Colors.black,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                          ),
-                          child: Text(
-                            "-1",
-                            style: Customfonts.counter.copyWith(
-                              color: TextTheme.of(context).bodyLarge?.color,
+                        Text("02", style: Customfonts.pointsStyle),
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                                minimumSize: const Size(40, 10),
+                                elevation: 8,
+                                shadowColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "+1", //
+                                style: Customfonts.counter.copyWith(
+                                  color: TextTheme.of(context).bodyLarge?.color,
+                                ),
+                              ),
                             ),
-                          ),
+
+                            SizedBox(height: 15),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                                elevation: 8,
+                                shadowColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "-1",
+                                style: Customfonts.counter.copyWith(
+                                  color: TextTheme.of(context).bodyLarge?.color,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: ThemeColors.myThemeApp.colorScheme.secondary,
-              margin: EdgeInsets.zero,
-              width: CustomMediaquery.width(context),
-              height: CustomMediaquery.heightPorcentage(context, 100),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Time B", style: Customfonts.timeNameStyle),
-                    Text("07", style: Customfonts.pointsStyle),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: ThemeColors.myThemeApp.colorScheme.secondary,
+                  margin: EdgeInsets.zero,
+                  width: CustomMediaquery.width(context),
+                  height: CustomMediaquery.heightPorcentage(context, 100),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(83, 219, 217, 217),
-                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            minimumSize: const Size(40, 10),
-                            elevation: 8,
-                            shadowColor: const Color(0xFF727272),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                          ),
-                          child: Text(
-                            "+1", //
-                            style: Customfonts.counter.copyWith(
-                              color: TextTheme.of(context).bodyLarge?.color,
+                        Text("Time B", style: Customfonts.timeNameStyle),
+                        Text("07", style: Customfonts.pointsStyle),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                                minimumSize: const Size(40, 10),
+                                elevation: 8,
+                                shadowColor: const Color(0xFF727272),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "+1", //
+                                style: Customfonts.counter.copyWith(
+                                  color: TextTheme.of(context).bodyLarge?.color,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(83, 219, 217, 217),
-                            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            minimumSize: const Size(40, 10),
-                            elevation: 8,
-                            shadowColor: const Color(0xFF727272),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                          ),
-                          child: Text(
-                            "-1",
-                            style: Customfonts.counter.copyWith(
-                              color: TextTheme.of(context).bodyLarge?.color,
+                            SizedBox(height: 12),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(83, 219, 217, 217),
+                                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                                minimumSize: const Size(40, 10),
+                                elevation: 8,
+                                shadowColor: const Color(0xFF727272),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "-1",
+                                style: Customfonts.counter.copyWith(
+                                  color: TextTheme.of(context).bodyLarge?.color,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              // Stack(
+              //   children: [
+              //     ElevatedButton(onPressed: (){},
+              //     child: Text("Trucoooo!")),
+              //   ],
+              // )
+            ],
           ),
-          // Stack(
-          //   children: [
-          //     ElevatedButton(onPressed: (){},
-          //     child: Text("Trucoooo!")),
-          //   ],
-          // )
         ],
       ),
     );
