@@ -13,9 +13,9 @@ void main() {
         // 1. Envelopamos o app todo com o Provedor de Estado
         ChangeNotifierProvider(
           create: (context) => ScoreCounter(), // 👈 Instancia o seu controller aqui
-          child: const AppTruco(),
         ),
       ],
+      child: const AppTruco(),
     ),
   );
 }
