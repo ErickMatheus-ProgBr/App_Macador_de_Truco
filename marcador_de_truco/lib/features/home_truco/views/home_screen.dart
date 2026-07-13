@@ -21,47 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final txt = context.watch<ScoreCounter>();
 
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: Builder(
-      //     builder: (context) {
-      //       return IconButton(
-      //         icon: const Icon(Icons.menu),
-      //         onPressed: () {
-      //           Scaffold.of(context).openDrawer();
-      //         },
-      //       );
-      //     },
-      //   ),
-      // ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              child: Text("Paleta de cores"),
-              decoration: BoxDecoration(color: Colors.white),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
-
       body: Stack(
         children: [
-          Positioned(child: Text("EE")),
+          // 1. O fundo colorido vem PRIMEIRO (por baixo de tudo)
           Row(
             children: [
               Expanded(
@@ -75,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Time A", style: Customfonts.timeNameStyle),
+                        Text(txt.trucoData.timeA, style: Customfonts.timeNameStyle),
 
-                        Text("02", style: Customfonts.pointsStyle),
+                        Text("${txt.trucoData.pointsA}", style: Customfonts.pointsStyle),
                         Column(
                           children: [
                             ElevatedButton(
@@ -93,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               child: Text(
-                                "+1", //
+                                "${txt.trucoData.decre}", //
                                 style: Customfonts.counter.copyWith(
                                   color: TextTheme.of(context).bodyLarge?.color,
                                 ),
@@ -113,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               child: Text(
-                                "-1",
+                                "${txt.trucoData.incre}",
                                 style: Customfonts.counter.copyWith(
                                   color: TextTheme.of(context).bodyLarge?.color,
                                 ),
@@ -137,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Time B", style: Customfonts.timeNameStyle),
-                        Text("07", style: Customfonts.pointsStyle),
+                        Text(txt.trucoData.timeB, style: Customfonts.timeNameStyle),
+                        Text("${txt.trucoData.pointsB}", style: Customfonts.pointsStyle),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -155,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               child: Text(
-                                "+1", //
+                                "${txt.trucoData.decre}", //
                                 style: Customfonts.counter.copyWith(
                                   color: TextTheme.of(context).bodyLarge?.color,
                                 ),
@@ -175,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               child: Text(
-                                "-1",
+                                "${txt.trucoData.incre}",
                                 style: Customfonts.counter.copyWith(
                                   color: TextTheme.of(context).bodyLarge?.color,
                                 ),
@@ -188,13 +150,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              // Stack(
-              //   children: [
-              //     ElevatedButton(onPressed: (){},
-              //     child: Text("Trucoooo!")),
-              //   ],
-              // )
             ],
+          ),
+          Positioned(
+            top: 80,
+            left: 0,
+            right: 0,
+
+            child: Center(child: Text(txt.trucoData.gameName, style: Customfonts.nameApp)),
+          ),
+
+          Positioned(
+            bottom: 155,
+            left: 49,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 70),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(5)),
+                elevation: 5,
+              ),
+              onPressed: () {}, //
+              child: Text(
+                txt.trucoData.btntruco,
+                style: Customfonts.btnLast.copyWith(color: TextTheme.of(context).bodySmall?.color),
+              ),
+            ),
           ),
         ],
       ),
