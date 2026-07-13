@@ -9,6 +9,7 @@ class ThemeColors {
       bodyLarge: TextStyle(color: Colors.white), // estilo pré-definido
       bodyMedium: TextStyle(color: Colors.white),
       titleLarge: TextStyle(color: Colors.white),
+      bodySmall: TextStyle(color: Colors.black12),
     ),
   );
 }
