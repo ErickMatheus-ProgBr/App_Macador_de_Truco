@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart'; // 1. Importe o pacote aqui
 
 class Customfonts {
   // Nome do Aplicativo
-  static TextStyle nameApp = GoogleFonts.changa(fontSize: 24, fontWeight: FontWeight.bold);
+  static TextStyle nameApp = GoogleFonts.zalandoSans(fontSize: 84, fontWeight: FontWeight.bold);
 
   // Sub titulo do app
   static TextStyle subTitle = GoogleFonts.changa(fontSize: 11, fontWeight: FontWeight.w500);
@@ -21,6 +21,8 @@ class Customfonts {
 
   // Botões de decrementar e incrementar
   static TextStyle counter = GoogleFonts.bungee(fontSize: 26, fontWeight: FontWeight.bold);
+
+  static TextStyle btnLast = GoogleFonts.agdasima(fontSize: 45, fontWeight: FontWeight.bold);
 
   // Historico
   static TextStyle baseboard = GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold);
