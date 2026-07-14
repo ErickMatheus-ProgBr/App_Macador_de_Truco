@@ -16,11 +16,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final txt = context.watch<ScoreCounter>();
 
     return Scaffold(
+      key: _scaffoldKey, // vincula a chave ao SCAFFOLD
+      // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
+      drawer: Drawer(
+        child: Container(
+          color: Colors.blue,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.white),
+                padding: EdgeInsets.all(14),
+                child: Row(
+                  children: [
+                    Icon(Icons.palette, color: Colors.pinkAccent, size: 40),
+                    SizedBox(width: 4),
+                    Text("Cores", style: TextStyle(color: Colors.black, fontSize: 35)),
+                  ],
+                ),
+              ),
+              ListTile(leading: Icon(Icons.palette)),
+            ],
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           // 1. O fundo colorido vem PRIMEIRO (por baixo de tudo)
@@ -176,6 +202,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 txt.trucoData.btntruco,
                 style: Customfonts.btnLast.copyWith(color: TextTheme.of(context).bodySmall?.color),
               ),
+            ),
+          ),
+
+          Positioned(
+            top: 50,
+            left: 0,
+
+            child: FloatingActionButton(
+              mini: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+              child: Icon(Icons.menu, color: const Color(0xFFF5F5F5), size: 48),
             ),
           ),
         ],
