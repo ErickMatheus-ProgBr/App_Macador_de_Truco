@@ -27,13 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
       drawer: Drawer(
         child: Container(
-          color: Colors.blue,
+          color: const Color.fromARGB(255, 255, 255, 255),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(color: Colors.white),
-                padding: EdgeInsets.all(14),
+                padding: EdgeInsets.only(top: -40, left: 18),
                 child: Row(
                   children: [
                     Icon(Icons.palette, color: Colors.pinkAccent, size: 40),
@@ -69,7 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Column(
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                txt.increasePointsA(); //Chama a função de diminuir o ponto do Time A
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
                                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
@@ -90,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             SizedBox(height: 15),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                txt.decreasePointsA();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
                                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
@@ -131,7 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                txt.increasePointsB();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
                                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
@@ -151,7 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SizedBox(height: 12),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                txt.decreasePointsB();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
                                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
@@ -200,7 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {}, //
               child: Text(
                 txt.trucoData.btntruco,
-                style: Customfonts.btnLast.copyWith(color: TextTheme.of(context).bodySmall?.color),
+                style: Customfonts.btnLast.copyWith(
+                  color: TextTheme.of(context).displaySmall?.color,
+                ),
               ),
             ),
           ),
