@@ -2,6 +2,75 @@ import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
 
 class ScoreCounter extends ChangeNotifier {
+  bool _isTrucoActive = false;
+  bool get isTrucoActive => _isTrucoActive;
+
+  int _roundValue = 1; // Começa valendo 1 ponto normal
+  int get roundValue => _roundValue;
+
+  // Ativando o Truco
+  void callTruco() {
+    _isTrucoActive = true;
+    _roundValue = 3; // Round value jump to 3 points
+    notifyListeners();
+  }
+
+  void cancelTruco() {
+    _isTrucoActive = false;
+    _roundValue = 1;
+    notifyListeners();
+  }
+
+  void confirmTrucoTeamA() {
+    if (_trucoData.pointsA < 12) {
+      int newPoints = _trucoData.pointsA * _roundValue;
+      if (newPoints > 12) newPoints = 12;
+
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: newPoints,
+        pointsB: _trucoData.pointsB,
+        btntruco: _trucoData.btntruco,
+      );
+
+      _isTrucoActive = false;
+      _roundValue = 1;
+
+      notifyListeners();
+    }
+  }
+
+  // Confirms Truco points for Team B
+  void confirmTrucoTeamB() {
+    if (_trucoData.pointsB < 12) {
+      int newPoints = _trucoData.pointsB + _roundValue;
+      if (newPoints > 12) newPoints = 12;
+
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: _trucoData.pointsA,
+        pointsB: newPoints,
+        btntruco: _trucoData.btntruco,
+      );
+
+      // Reset round state
+      _isTrucoActive = false;
+      _roundValue = 1;
+
+      notifyListeners();
+    }
+  }
+
   // Inicializamos o nosso modelo com os valores padrão do jogo
   TrucoModel _trucoData = TrucoModel(
     gameName: "Truco",
