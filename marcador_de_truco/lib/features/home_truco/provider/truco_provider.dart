@@ -37,5 +37,58 @@ class ScoreCounter extends ChangeNotifier {
     }
   }
 
-  // Crie funções parecidas para diminuir e para gerenciar o Time B...
+  void decreasePointsA() {
+    if (_trucoData.pointsA > 0) {
+      // O jogo de truco vai até 12!
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: _trucoData.pointsA - 1, // Incrementa o time A
+        pointsB: _trucoData.pointsB,
+        btntruco: _trucoData.btntruco,
+      );
+      notifyListeners(); // Avisa a HomeScreen para atualizar
+    }
+  }
+
+  // Função para incrementar pontos do Time B
+  void increasePointsB() {
+    if (_trucoData.pointsB < 12) {
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: _trucoData.pointsA, // 👈 Mantém o ponto do Time A igual!
+        pointsB: _trucoData.pointsB + 1, // 👈 Soma 1 apenas para o Time B
+        btntruco: _trucoData.btntruco,
+      );
+      notifyListeners(); // Avisa a tela para desenhar o novo valor
+    }
+  }
+
+  // Função para decrementar pontos do Time B
+  void decreasePointsB() {
+    if (_trucoData.pointsB > 0) {
+      // Garante que a pontuação não fique negativa
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: _trucoData.pointsA, // 👈 Mantém o ponto do Time A igual!
+        pointsB: _trucoData.pointsB - 1, // 👈 Diminui 1 apenas para o Time B
+        btntruco: _trucoData.btntruco,
+      );
+      notifyListeners(); // Avisa a tela para desenhar o novo valor
+    }
+  }
 }
