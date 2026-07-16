@@ -2,29 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
 
 class ScoreCounter extends ChangeNotifier {
-  bool _isTrucoActive = false;
-  bool get isTrucoActive => _isTrucoActive;
-
-  int _roundValue = 1; // Começa valendo 1 ponto normal
+  int _roundValue = 1; // Starts at 1 point for normal rounds
   int get roundValue => _roundValue;
 
-  // Ativando o Truco
-  void callTruco() {
-    _isTrucoActive = true;
-    _roundValue = 3; // Round value jump to 3 points
+  // Rotates the Truco value: 3 -> 6 -> 9 -> 12 -> 3
+  void increaseTrucoValue() {
+    if (_roundValue == 1) {
+      _roundValue = 3;
+    } else if (_roundValue == 3) {
+      _roundValue = 6;
+    } else if (_roundValue == 6) {
+      _roundValue = 9;
+    } else if (_roundValue == 9) {
+      _roundValue = 12;
+    } else if (_roundValue == 12) {
+      _roundValue = 3;
+    }
     notifyListeners();
   }
 
-  void cancelTruco() {
-    _isTrucoActive = false;
+  // Resets the round value back to 1 (Cancel action)
+  void resetTrucoValue() {
     _roundValue = 1;
     notifyListeners();
   }
 
-  void confirmTrucoTeamA() {
+  // Model initialization
+  TrucoModel _trucoData = TrucoModel(
+    gameName: "Truco",
+    caption: "Marcador",
+    timeA: "Time A",
+    timeB: "Time B",
+    decre: "+1",
+    incre: "-1",
+    pointsA: 0,
+    pointsB: 0,
+    btntruco: "TRUCOOOO!",
+  );
+
+  // Getter for UI to read data
+  TrucoModel get trucoData => _trucoData;
+
+  // Increments Team A points using the current roundValue
+  void increasePointsA() {
     if (_trucoData.pointsA < 12) {
-      int newPoints = _trucoData.pointsA * _roundValue;
-      if (newPoints > 12) newPoints = 12;
+      int newPoints = _trucoData.pointsA + _roundValue;
+      if (newPoints > 12) newPoints = 12; // Cap at 12 points
 
       _trucoData = TrucoModel(
         gameName: _trucoData.gameName,
@@ -38,18 +61,35 @@ class ScoreCounter extends ChangeNotifier {
         btntruco: _trucoData.btntruco,
       );
 
-      _isTrucoActive = false;
+      // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
-
       notifyListeners();
     }
   }
 
-  // Confirms Truco points for Team B
-  void confirmTrucoTeamB() {
+  // Decrements Team A points (always by 1)
+  void decreasePointsA() {
+    if (_trucoData.pointsA > 0) {
+      _trucoData = TrucoModel(
+        gameName: _trucoData.gameName,
+        caption: _trucoData.caption,
+        timeA: _trucoData.timeA,
+        timeB: _trucoData.timeB,
+        decre: _trucoData.decre,
+        incre: _trucoData.incre,
+        pointsA: _trucoData.pointsA - 1,
+        pointsB: _trucoData.pointsB,
+        btntruco: _trucoData.btntruco,
+      );
+      notifyListeners();
+    }
+  }
+
+  // Increments Team B points using the current roundValue
+  void increasePointsB() {
     if (_trucoData.pointsB < 12) {
       int newPoints = _trucoData.pointsB + _roundValue;
-      if (newPoints > 12) newPoints = 12;
+      if (newPoints > 12) newPoints = 12; // Cap at 12 points
 
       _trucoData = TrucoModel(
         gameName: _trucoData.gameName,
@@ -63,89 +103,15 @@ class ScoreCounter extends ChangeNotifier {
         btntruco: _trucoData.btntruco,
       );
 
-      // Reset round state
-      _isTrucoActive = false;
+      // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
-
       notifyListeners();
     }
   }
 
-  // Inicializamos o nosso modelo com os valores padrão do jogo
-  TrucoModel _trucoData = TrucoModel(
-    gameName: "Truco",
-    caption: "Marcador",
-    timeA: "Time A",
-    timeB: "Time B",
-    decre: "+1",
-    incre: "-1",
-    pointsA: 0,
-    pointsB: 0,
-    btntruco: "TRUCOOOO!",
-  );
-
-  // Getter para a HomeScreen conseguir ler todos os dados
-  TrucoModel get trucoData => _trucoData;
-
-  // Função para incrementar pontos do Time A
-  void increasePointsA() {
-    if (_trucoData.pointsA < 12) {
-      // O jogo de truco vai até 12!
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA + 1, // Incrementa o time A
-        pointsB: _trucoData.pointsB,
-        btntruco: _trucoData.btntruco,
-      );
-      notifyListeners(); // Avisa a HomeScreen para atualizar
-    }
-  }
-
-  void decreasePointsA() {
-    if (_trucoData.pointsA > 0) {
-      // O jogo de truco vai até 12!
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA - 1, // Incrementa o time A
-        pointsB: _trucoData.pointsB,
-        btntruco: _trucoData.btntruco,
-      );
-      notifyListeners(); // Avisa a HomeScreen para atualizar
-    }
-  }
-
-  // Função para incrementar pontos do Time B
-  void increasePointsB() {
-    if (_trucoData.pointsB < 12) {
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA, // 👈 Mantém o ponto do Time A igual!
-        pointsB: _trucoData.pointsB + 1, // 👈 Soma 1 apenas para o Time B
-        btntruco: _trucoData.btntruco,
-      );
-      notifyListeners(); // Avisa a tela para desenhar o novo valor
-    }
-  }
-
-  // Função para decrementar pontos do Time B
+  // Decrements Team B points (always by 1)
   void decreasePointsB() {
     if (_trucoData.pointsB > 0) {
-      // Garante que a pontuação não fique negativa
       _trucoData = TrucoModel(
         gameName: _trucoData.gameName,
         caption: _trucoData.caption,
@@ -153,11 +119,11 @@ class ScoreCounter extends ChangeNotifier {
         timeB: _trucoData.timeB,
         decre: _trucoData.decre,
         incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA, // 👈 Mantém o ponto do Time A igual!
-        pointsB: _trucoData.pointsB - 1, // 👈 Diminui 1 apenas para o Time B
+        pointsA: _trucoData.pointsA,
+        pointsB: _trucoData.pointsB - 1,
         btntruco: _trucoData.btntruco,
       );
-      notifyListeners(); // Avisa a tela para desenhar o novo valor
+      notifyListeners();
     }
   }
 }
