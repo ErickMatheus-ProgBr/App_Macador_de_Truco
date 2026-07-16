@@ -25,12 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey, // vincula a chave ao SCAFFOLD
       // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
+
+      // Drawer
       drawer: Drawer(
         child: Container(
           color: const Color.fromARGB(255, 255, 255, 255),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
+              // Cabeçalho do drawer
               DrawerHeader(
                 decoration: BoxDecoration(color: Colors.white),
                 padding: EdgeInsets.only(top: -40, left: 18),
@@ -49,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: [
-          // 1. O fundo colorido vem PRIMEIRO (por baixo de tudo)
+          // LADO ESQUERDO
           Row(
             children: [
               Expanded(
@@ -63,14 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // Nome do time Esquerdo
                         Text(txt.trucoData.timeA, style: Customfonts.timeNameStyle),
-
+                        // Pontuação do time Esquerdo
                         Text("${txt.trucoData.pointsA}", style: Customfonts.pointsStyle),
                         Column(
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                txt.increasePointsA(); //Chama a função de diminuir o ponto do Time A
+                                txt.increasePointsA(); //Chama a função de aumentar o ponto do Time A
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
@@ -82,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
+
+                              // Somar ponto
                               child: Text(
                                 "${txt.trucoData.decre}", //
                                 style: Customfonts.counter.copyWith(
@@ -93,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(height: 15),
                             ElevatedButton(
                               onPressed: () {
-                                txt.decreasePointsA();
+                                txt.decreasePointsA(); // Função para diminuir pontos do time A
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(83, 219, 217, 217),
@@ -104,6 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
+
+                              // Diminuir pontos
                               child: Text(
                                 "${txt.trucoData.incre}",
                                 style: Customfonts.counter.copyWith(
@@ -118,6 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+
+              // TIME DO LADO DIREITO
               Expanded(
                 flex: 1,
                 child: Container(
@@ -195,23 +205,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           Positioned(
-            bottom: 155,
-            left: 49,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 70),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(5)),
-                elevation: 5,
-              ),
-              onPressed: () {}, //
-              child: Text(
-                txt.trucoData.btntruco,
-                style: Customfonts.btnLast.copyWith(
-                  color: TextTheme.of(context).displaySmall?.color,
+            bottom: 60, // Posição no rodapé da tela
+            left: 0,
+            right: 0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Ocupa apenas o espaço necessário
+              children: [
+                // 1. Botão Principal do Truco (Muda o texto dinamicamente baseado no roundValue!)
+                ElevatedButton(
+                  onPressed: () => txt.increaseTrucoValue(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: txt.roundValue > 1 ? const Color(0xFFFCFCFC) : Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 15),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                  child: Text(
+                    txt.roundValue == 1
+                        ? "TRUCO!"
+                        : "VALE ${txt.roundValue}!", // 👈 Muda de TRUCO! para VALE 3!, VALE 6!...
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
+
+                SizedBox(height: 10),
+
+                // 2. Espaço dinâmico: Só mostra o botão "CANCEL" se o jogo estiver realmente trucado (roundValue > 1)
+                if (txt.roundValue > 1) ...[
+                  const SizedBox(height: 10), // Espacinho entre os botões
+                  ElevatedButton(
+                    onPressed: () => txt.resetTrucoValue(), // Cancela e volta para 1 ponto
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.withOpacity(0.8),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    ),
+                    child: const Text(
+                      "CANCEL",
+                      style: TextStyle(fontSize: 17, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
 
