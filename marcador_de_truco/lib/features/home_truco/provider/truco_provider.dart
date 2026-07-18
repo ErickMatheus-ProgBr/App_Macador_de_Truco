@@ -10,11 +10,11 @@ class ScoreCounter extends ChangeNotifier {
     if (_roundValue == 1) {
       _roundValue = 3;
     } else if (_roundValue == 3) {
-      _roundValue = 6;
+      _roundValue = 6; // sai de 3 para 6 pontos se a arquipe concordar
     } else if (_roundValue == 6) {
-      _roundValue = 9;
+      _roundValue = 9; // de 6 sai para 9 pontos se aceitarem a seizada
     } else if (_roundValue == 9) {
-      _roundValue = 12;
+      _roundValue = 12; // de 9 pontos podem aumentar para 12 pontos ;
     } else if (_roundValue == 12) {
       _roundValue = 3;
     }
@@ -38,92 +38,86 @@ class ScoreCounter extends ChangeNotifier {
     pointsA: 0,
     pointsB: 0,
     btntruco: "TRUCOOOO!",
+    winner: false,
+    winnerTeam: "Time vencedor",
   );
 
   // Getter for UI to read data
   TrucoModel get trucoData => _trucoData;
 
+  // Função que verifica se o jogo acabou
+  void winTruco() {
+    if (_trucoData.pointsA == 12) {
+      _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeA);
+    } else if (_trucoData.pointsB == 12) {
+      _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeB);
+    }
+  }
+
   // Increments Team A points using the current roundValue
   void increasePointsA() {
-    if (_trucoData.pointsA < 12) {
+    if (_trucoData.pointsA < 12 && !_trucoData.winner) {
       int newPoints = _trucoData.pointsA + _roundValue;
       if (newPoints > 12) newPoints = 12; // Cap at 12 points
 
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: newPoints,
-        pointsB: _trucoData.pointsB,
-        btntruco: _trucoData.btntruco,
-      );
+      // 💡 OLHA COMO FICOU LIMPO: Altera apenas o pointsA! As outras propriedades permanecem salvas
+      _trucoData = _trucoData.copyWith(pointsA: newPoints);
 
       // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
+      winTruco();
       notifyListeners();
     }
   }
 
   // Decrements Team A points (always by 1)
   void decreasePointsA() {
-    if (_trucoData.pointsA > 0) {
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA - 1,
-        pointsB: _trucoData.pointsB,
-        btntruco: _trucoData.btntruco,
-      );
+    // Só deixa diminuir se ninguém tiver vencido o jogo ainda
+    if (_trucoData.pointsA > 0 && !_trucoData.winner) {
+      _trucoData = _trucoData.copyWith(pointsA: _trucoData.pointsA - 1);
       notifyListeners();
     }
   }
 
   // Increments Team B points using the current roundValue
   void increasePointsB() {
-    if (_trucoData.pointsB < 12) {
+    if (_trucoData.pointsB < 12 && !_trucoData.winner) {
       int newPoints = _trucoData.pointsB + _roundValue;
       if (newPoints > 12) newPoints = 12; // Cap at 12 points
 
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA,
-        pointsB: newPoints,
-        btntruco: _trucoData.btntruco,
-      );
+      _trucoData = _trucoData.copyWith(pointsB: newPoints);
 
       // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
+      winTruco();
       notifyListeners();
     }
   }
 
   // Decrements Team B points (always by 1)
   void decreasePointsB() {
-    if (_trucoData.pointsB > 0) {
-      _trucoData = TrucoModel(
-        gameName: _trucoData.gameName,
-        caption: _trucoData.caption,
-        timeA: _trucoData.timeA,
-        timeB: _trucoData.timeB,
-        decre: _trucoData.decre,
-        incre: _trucoData.incre,
-        pointsA: _trucoData.pointsA,
-        pointsB: _trucoData.pointsB - 1,
-        btntruco: _trucoData.btntruco,
-      );
+    if (_trucoData.pointsB > 0 && !_trucoData.winner) {
+      _trucoData = _trucoData.copyWith(pointsB: _trucoData.pointsB - 1);
       notifyListeners();
     }
+  }
+
+  // 🔄 Função bônus para quando você quiser resetar o jogo para uma nova partida
+  void restartGame() {
+    _trucoData = TrucoModel(
+      gameName: "Truco",
+      caption: "Marcador",
+      timeA: _trucoData.timeA,
+      timeB: _trucoData.timeB,
+      decre: "+1",
+      incre: "-1",
+      pointsA: 0,
+      pointsB: 0,
+      btntruco: "TRUCOOOO!",
+      winner: false,
+      winnerTeam: "",
+    );
+    _roundValue = 1;
+    notifyListeners();
   }
 }
