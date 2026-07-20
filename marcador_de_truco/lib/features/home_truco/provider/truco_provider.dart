@@ -1,9 +1,45 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
 
 class ScoreCounter extends ChangeNotifier {
   int _roundValue = 1; // Starts at 1 point for normal rounds
   int get roundValue => _roundValue;
+
+  final List<String> _victoryGifs = [
+    "assets/gif1.gif",
+    "assets/gif2.webp",
+    "assets/gif3.gif",
+    "assets/gif4.gif",
+    "assets/gif5.gif",
+    "assets/gif6.gif",
+    "assets/gif7.gif",
+    "assets/gif8.webp",
+    "assets/gif9.gif",
+    "assets/gif10.gif",
+  ];
+  // Variable to store the currently chosen GIF URL
+  String _currentVictoryGif = '';
+  String get currentVictoryGif => _currentVictoryGif; // Getter para a UI ler o GIF
+
+  // ... (Mantenha suas outras funções como increaseTrucoValue, trucoData, etc.)
+
+  // 👈 3. Atualize a sua função interna de checar vencedor para sortear o GIF:
+  void _checkWinner() {
+    if ((_trucoData.pointsA == 12 || _trucoData.pointsB == 12) && !_trucoData.winner) {
+      // Sorteia um número aleatório de 0 a 9 baseado no tamanho da lista
+      final random = Random();
+      int randomIndex = random.nextInt(_victoryGifs.length);
+      _currentVictoryGif = _victoryGifs[randomIndex]; // Guarda o GIF sorteado
+
+      if (_trucoData.pointsA == 12) {
+        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeA);
+      } else {
+        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeB);
+      }
+    }
+  }
 
   // Rotates the Truco value: 3 -> 6 -> 9 -> 12 -> 3
   void increaseTrucoValue() {
@@ -65,7 +101,7 @@ class ScoreCounter extends ChangeNotifier {
 
       // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
-      winTruco();
+      _checkWinner();
       notifyListeners();
     }
   }
@@ -89,7 +125,7 @@ class ScoreCounter extends ChangeNotifier {
 
       // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
-      winTruco();
+      _checkWinner();
       notifyListeners();
     }
   }
@@ -104,6 +140,7 @@ class ScoreCounter extends ChangeNotifier {
 
   // 🔄 Função bônus para quando você quiser resetar o jogo para uma nova partida
   void restartGame() {
+    _currentVictoryGif = "";
     _trucoData = TrucoModel(
       gameName: "Truco",
       caption: "Marcador",
