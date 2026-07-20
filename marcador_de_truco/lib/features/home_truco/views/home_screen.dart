@@ -1,10 +1,10 @@
+import 'package:lottie/lottie.dart'; // 👈 Importe o pacote do Lottie aqui no topo
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/core/fonts/customFonts.dart';
 import 'package:marcador_de_truco/core/theme/theme_colors.dart';
 
 import 'package:marcador_de_truco/core/utils/media_query.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -235,17 +235,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // 2. Espaço dinâmico: Só mostra o botão "CANCEL" se o jogo estiver realmente trucado (roundValue > 1)
                 if (txt.roundValue > 1) ...[
-                  const SizedBox(height: 10), // Espacinho entre os botões
+                  const SizedBox(height: 20), // Espacinho entre os botões
                   ElevatedButton(
                     onPressed: () => txt.resetTrucoValue(), // Cancela e volta para 1 ponto
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red.withOpacity(0.8),
+                      backgroundColor: Colors.red.withOpacity(0.7),
                       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     ),
                     child: const Text(
-                      "CANCEL",
-                      style: TextStyle(fontSize: 17, color: Colors.white),
+                      "CANCELAR TRUCO",
+                      style: TextStyle(fontSize: 23, color: Colors.white),
                     ),
                   ),
                 ],
@@ -267,6 +267,76 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.menu, color: const Color(0xFFF5F5F5), size: 48),
             ),
           ),
+
+          if (txt.trucoData.winner) ...[
+            // Fundo escurecido semi-transparente para dar foco ao campeão
+            Positioned.fill(child: Container(color: Colors.black.withOpacity(0.85))),
+
+            // Elementos visuais do Vencedor (Animação + Texto + Botão)
+            Positioned.fill(
+              child: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Animação do Lottie (Confetes caindo)
+                    // Você pode baixar o JSON no site do LottieFiles e pôr nos seus assets
+                    SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: Image.asset(
+                        txt.currentVictoryGif, // 👈 Agora lê o caminho local sorteado pelo Provider
+                        fit: BoxFit.contain,
+                        // Nota: Como o carregamento local é quase instantâneo,
+                        // não precisamos mais do loadingBuilder!
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.emoji_events, size: 80, color: Colors.amber),
+                              SizedBox(height: 10),
+                              Text(
+                                "Erro ao carregar o GIF! 🏆",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Nome do Time Vencedor dinâmico
+                    Text(
+                      txt.trucoData.winnerTeam.toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Botão para resetar e iniciar uma nova partida
+                    ElevatedButton.icon(
+                      onPressed: () => txt.restartGame(), // Chama a função do Provider
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        elevation: 5,
+                      ),
+                      icon: const Icon(Icons.refresh, fontWeight: FontWeight.bold),
+                      label: const Text(
+                        "Começar outra rodada",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
