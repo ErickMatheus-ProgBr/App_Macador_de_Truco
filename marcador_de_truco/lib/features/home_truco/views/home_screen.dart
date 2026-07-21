@@ -2,9 +2,11 @@ import 'package:lottie/lottie.dart'; // 👈 Importe o pacote do Lottie aqui no 
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/core/fonts/customFonts.dart';
 import 'package:marcador_de_truco/core/theme/theme_colors.dart';
-
+import 'package:flutter/material.dart';
+import 'package:marcador_de_truco/features/widgets/drawerWidget.dart';
 import 'package:marcador_de_truco/core/utils/media_query.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
+import 'package:marcador_de_truco/features/widgets/drawerWidget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -24,32 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       key: _scaffoldKey, // vincula a chave ao SCAFFOLD
-      // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
 
-      // Drawer
-      drawer: Drawer(
-        child: Container(
-          color: const Color.fromARGB(255, 255, 255, 255),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              // Cabeçalho do drawer
-              DrawerHeader(
-                decoration: BoxDecoration(color: Colors.white),
-                padding: EdgeInsets.only(top: -40, left: 18),
-                child: Row(
-                  children: [
-                    Icon(Icons.palette, color: Colors.pinkAccent, size: 40),
-                    SizedBox(width: 4),
-                    Text("Cores", style: TextStyle(color: Colors.black, fontSize: 35)),
-                  ],
-                ),
-              ),
-              ListTile(leading: Icon(Icons.palette)),
-            ],
-          ),
-        ),
-      ),
+      drawer: DrawerWidget(),
+
+      // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
       body: Stack(
         children: [
           // LADO ESQUERDO
@@ -307,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Nome do Time Vencedor dinâmico
                     Text(
-                      txt.trucoData.winnerTeam.toUpperCase(),
+                      "Vencedor: \n${txt.trucoData.winnerTeam.toUpperCase()} 🤩",
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 36,
