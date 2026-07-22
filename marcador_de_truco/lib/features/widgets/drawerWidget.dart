@@ -42,8 +42,7 @@ class DrawerWidget extends StatelessWidget {
               ),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Rulesscreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RulesScreen()));
               },
             ),
           ],
