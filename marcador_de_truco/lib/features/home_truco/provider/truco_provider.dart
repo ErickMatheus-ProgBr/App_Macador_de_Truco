@@ -3,6 +3,59 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class TrucoProvider extends ChangeNotifier {
+  int _pontosNos = 0;
+  int _pontosEles = 0;
+
+  int get pontosNos => _pontosNos;
+  int get pontosEles => _pontosEles;
+
+  // CONSTRUTOR: Assim que o Provider é criado, ele busca os pontos salvos
+  TrucoProvider() {
+    _carregarPontosSalvos();
+  }
+
+  // 1. CARREGAR OS DADOS SALVOS NO CELULAR
+  Future<void> _carregarPontosSalvos() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Pega os pontos salvos. Se não existir nada ainda, padrão é 0
+    _pontosNos = prefs.getInt('pontos_nos') ?? 0;
+    _pontosEles = prefs.getInt('pontos_eles') ?? 0;
+    notifyListeners(); // Atualiza a tela com os pontos recuperados
+  }
+
+  // 2. SALVAR OS DADOS NO CELULAR
+  Future<void> _salvarPontos() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('pontos_nos', _pontosNos);
+    await prefs.setInt('pontos_eles', _pontosEles);
+  }
+
+  // 3. ADICIONAR PONTOS
+  void adicionarPontosNos(int qtd) {
+    _pontosNos += qtd;
+    _salvarPontos(); // Grava a mudança no celular
+    notifyListeners();
+  }
+
+  void adicionarPontosEles(int qtd) {
+    _pontosEles += qtd;
+    _salvarPontos(); // Grava a mudança no celular
+    notifyListeners();
+  }
+
+  // 4. ZERAR PARTIDA
+  void reiniciarPartida() {
+    _pontosNos = 0;
+    _pontosEles = 0;
+    _salvarPontos(); // Reseta os dados gravados no celular
+    notifyListeners();
+  }
+}
+
 class ScoreCounter extends ChangeNotifier {
   int _roundValue = 1; // Starts at 1 point for normal rounds
   int get roundValue => _roundValue;

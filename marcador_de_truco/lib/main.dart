@@ -3,6 +3,7 @@ import 'package:marcador_de_truco/core/theme/theme_colors.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
 import 'package:marcador_de_truco/features/home_truco/views/home_screen.dart';
 import 'package:provider/provider.dart'; // 👈 ADICIONE ESSA LINHA AQUI!
+import 'package:shared_preferences/shared_preferences.dart'; // 👈 1. IMPORTANTE: Importar o shared_preferences
 
 import 'package:path_provider/path_provider.dart';
 
