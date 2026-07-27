@@ -1,29 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:google_fonts/google_fonts.dart'; // 1. Importe o pacote aqui
+import 'package:google_fonts/google_fonts.dart';
 
-class Customfonts {
-  // Nome do Aplicativo
+// Classe utilitária contendo os estilos tipográficos centralizados do aplicativo.
+// Usa [GoogleFonts] para garantir tipografias personalizadas e consistentes.
+class CustomFonts {
+  // Estilo do Título Principal/Nome do Aplicativo
   static TextStyle nameApp = GoogleFonts.zalandoSans(fontSize: 84, fontWeight: FontWeight.bold);
 
-  // Sub titulo do app
-  static TextStyle subTitle = GoogleFonts.changa(fontSize: 11, fontWeight: FontWeight.w500);
+  // Estilo para a exibição dos nomes dos times (Time A / Time B)
+  static TextStyle timeNameStyle = GoogleFonts.poppins(fontSize: 41, fontWeight: FontWeight.bold);
 
-  // Estilo para o campo de nome das equipes
-  static TextStyle timeNameStyle = GoogleFonts.poppins(fontSize: 39, fontWeight: FontWeight.bold);
+  // Estilo com destaque para a contagem númerica de pontos
+  static TextStyle pointsStyle = GoogleFonts.roboto(fontSize: 125, fontWeight: FontWeight.bold);
 
-  // Pontos
-  static TextStyle pointsStyle = GoogleFonts.roboto(
-    fontSize: 125,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 1.5,
-  );
-
-  // Botões de decrementar e incrementar
+  // Botões de incrementar(+1) e decrementar (-1)
   static TextStyle counter = GoogleFonts.bungee(fontSize: 26, fontWeight: FontWeight.bold);
 
-  static TextStyle btnLast = GoogleFonts.agdasima(fontSize: 45, fontWeight: FontWeight.bold);
-
-  // Historico
-  static TextStyle baseboard = GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.bold);
+  static TextStyle btnLast = GoogleFonts.agdasima(fontSize: 25, fontWeight: FontWeight.bold);
 }
