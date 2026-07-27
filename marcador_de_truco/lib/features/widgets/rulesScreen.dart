@@ -30,19 +30,22 @@ class RulesScreen extends StatelessWidget {
           children: [
             _buildSelectionTitle("🏆 Manilhas"),
 
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Card(
               elevation: 10,
-              child: Column(
-                children: const [
-                  _ManilhaItem(details: "Primeira carta mais forte do jogo ♣"),
-                  Divider(),
-                  _ManilhaItem(details: "A segunda carta maior do jogo ♥"),
-                  Divider(),
-                  _ManilhaItem(details: "A terceira maior ♠"),
-                  Divider(),
-                  _ManilhaItem(details: "Quarta maior ♦"),
-                ],
+              child: Padding(
+                padding: const EdgeInsetsGeometry.symmetric(vertical: 5),
+                child: Column(
+                  children: const [
+                    _ManilhaItem(details: "Primeira carta mais forte do jogo ♣"),
+                    Divider(),
+                    _ManilhaItem(details: "A segunda carta maior do jogo ♥"),
+                    Divider(),
+                    _ManilhaItem(details: "A terceira maior ♠"),
+                    Divider(),
+                    _ManilhaItem(details: "Quarta maior ♦"),
+                  ],
+                ),
               ),
             ),
 
@@ -59,7 +62,7 @@ class RulesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(
-                    "   Da mais fraca até a mais forte:\n\n3 ➝ 2 ➝ A ➝ A ➝ J ➝ Q ➝ 7 ➝ 6  \n5 ➝ 4 ",
+                    "Cartas da mais fracas, até as mais fortes:\n\n 4 ➝ 5 ➝ 6 ➝ 7 ➝ Q ➝ J ➝ K \n A ➝ 2 ➝ 3 ➝ MANILHA ",
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 19,
@@ -76,7 +79,7 @@ class RulesScreen extends StatelessWidget {
 
             _buildSelectionTitle("🔢 Pontuação das rodadas"),
 
-            SizedBox(height: 20),
+            SizedBox(height: 10),
 
             Card(
               elevation: 10,
