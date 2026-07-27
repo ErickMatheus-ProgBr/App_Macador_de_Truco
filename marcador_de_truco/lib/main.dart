@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/core/theme/theme_colors.dart';
+import 'package:marcador_de_truco/features/home_truco/provider/animated_provider.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
 import 'package:marcador_de_truco/features/home_truco/views/home_screen.dart';
 import 'package:provider/provider.dart'; // 👈 ADICIONE ESSA LINHA AQUI!
@@ -15,6 +16,7 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => ScoreCounter(), // 👈 Instancia o seu controller aqui
         ),
+        ChangeNotifierProvider(create: (context) => AnimatedProvider()),
       ],
       child: const AppTruco(),
     ),
