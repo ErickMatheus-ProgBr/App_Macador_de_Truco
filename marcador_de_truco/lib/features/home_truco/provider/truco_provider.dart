@@ -1,63 +1,10 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class TrucoProvider extends ChangeNotifier {
-  int _pontosNos = 0;
-  int _pontosEles = 0;
-
-  int get pontosNos => _pontosNos;
-  int get pontosEles => _pontosEles;
-
-  // CONSTRUTOR: Assim que o Provider é criado, ele busca os pontos salvos
-  TrucoProvider() {
-    _carregarPontosSalvos();
-  }
-
-  // 1. CARREGAR OS DADOS SALVOS NO CELULAR
-  Future<void> _carregarPontosSalvos() async {
-    final prefs = await SharedPreferences.getInstance();
-    // Pega os pontos salvos. Se não existir nada ainda, padrão é 0
-    _pontosNos = prefs.getInt('pontos_nos') ?? 0;
-    _pontosEles = prefs.getInt('pontos_eles') ?? 0;
-    notifyListeners(); // Atualiza a tela com os pontos recuperados
-  }
-
-  // 2. SALVAR OS DADOS NO CELULAR
-  Future<void> _salvarPontos() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('pontos_nos', _pontosNos);
-    await prefs.setInt('pontos_eles', _pontosEles);
-  }
-
-  // 3. ADICIONAR PONTOS
-  void adicionarPontosNos(int qtd) {
-    _pontosNos += qtd;
-    _salvarPontos(); // Grava a mudança no celular
-    notifyListeners();
-  }
-
-  void adicionarPontosEles(int qtd) {
-    _pontosEles += qtd;
-    _salvarPontos(); // Grava a mudança no celular
-    notifyListeners();
-  }
-
-  // 4. ZERAR PARTIDA
-  void reiniciarPartida() {
-    _pontosNos = 0;
-    _pontosEles = 0;
-    _salvarPontos(); // Reseta os dados gravados no celular
-    notifyListeners();
-  }
-}
+import 'package:marcador_de_truco/features/home_truco/data/models/truco_model.dart';
 
 class ScoreCounter extends ChangeNotifier {
-  int _roundValue = 1; // Starts at 1 point for normal rounds
+  int _roundValue = 1;
   int get roundValue => _roundValue;
 
   final List<String> _victoryGifs = [
@@ -72,51 +19,10 @@ class ScoreCounter extends ChangeNotifier {
     "assets/gif9.gif",
     "assets/gif10.gif",
   ];
-  // Variable to store the currently chosen GIF URL
+
   String _currentVictoryGif = '';
-  String get currentVictoryGif => _currentVictoryGif; // Getter para a UI ler o GIF
+  String get currentVictoryGif => _currentVictoryGif;
 
-  // ... (Mantenha suas outras funções como increaseTrucoValue, trucoData, etc.)
-
-  // 👈 3. Atualize a sua função interna de checar vencedor para sortear o GIF:
-  void _checkWinner() {
-    if ((_trucoData.pointsA == 12 || _trucoData.pointsB == 12) && !_trucoData.winner) {
-      // Sorteia um número aleatório de 0 a 9 baseado no tamanho da lista
-      final random = Random();
-      int randomIndex = random.nextInt(_victoryGifs.length);
-      _currentVictoryGif = _victoryGifs[randomIndex]; // Guarda o GIF sorteado
-
-      if (_trucoData.pointsA == 12) {
-        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeA);
-      } else {
-        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeB);
-      }
-    }
-  }
-
-  // Rotates the Truco value: 3 -> 6 -> 9 -> 12 -> 3
-  void increaseTrucoValue() {
-    if (_roundValue == 1) {
-      _roundValue = 3;
-    } else if (_roundValue == 3) {
-      _roundValue = 6; // sai de 3 para 6 pontos se a arquipe concordar
-    } else if (_roundValue == 6) {
-      _roundValue = 9; // de 6 sai para 9 pontos se aceitarem a seizada
-    } else if (_roundValue == 9) {
-      _roundValue = 12; // de 9 pontos podem aumentar para 12 pontos ;
-    } else if (_roundValue == 12) {
-      _roundValue = 3;
-    }
-    notifyListeners();
-  }
-
-  // Resets the round value back to 1 (Cancel action)
-  void resetTrucoValue() {
-    _roundValue = 1;
-    notifyListeners();
-  }
-
-  // Model initialization
   TrucoModel _trucoData = TrucoModel(
     gameName: "Truco",
     caption: "Marcador",
@@ -131,67 +37,121 @@ class ScoreCounter extends ChangeNotifier {
     winnerTeam: "Time vencedor",
   );
 
-  // Getter for UI to read data
   TrucoModel get trucoData => _trucoData;
 
-  // Função que verifica se o jogo acabou
-  void winTruco() {
-    if (_trucoData.pointsA == 12) {
-      _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeA);
-    } else if (_trucoData.pointsB == 12) {
-      _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeB);
+  // Construtor Seguro: Carrega os dados salvos sem travar a UI
+  ScoreCounter() {
+    _carregarPontosSalvos();
+  }
+
+  // 1. CARREGAR PONTOS (Sem travar o build do Flutter)
+  Future<void> _carregarPontosSalvos() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      int pointsA = prefs.getInt('pointsA') ?? 0;
+      int pointsB = prefs.getInt('pointsB') ?? 0;
+
+      _trucoData = _trucoData.copyWith(pointsA: pointsA, pointsB: pointsB);
+
+      // Checa se já havia um vencedor salvo
+      _checkWinner();
+
+      // Garante que o notifyListeners só rode APÓS a tela ser desenhada
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
+    } catch (e) {
+      debugPrint("Erro ao carregar SharedPreferences: $e");
     }
   }
 
-  // Increments Team A points using the current roundValue
+  // 2. SALVAR PONTOS (Assíncrono e Seguro)
+  Future<void> _salvarPontos() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('pointsA', _trucoData.pointsA);
+      await prefs.setInt('pointsB', _trucoData.pointsB);
+    } catch (e) {
+      debugPrint("Erro ao salvar SharedPreferences: $e");
+    }
+  }
+
+  void _checkWinner() {
+    if ((_trucoData.pointsA >= 12 || _trucoData.pointsB >= 12) && !_trucoData.winner) {
+      final random = Random();
+      int randomIndex = random.nextInt(_victoryGifs.length);
+      _currentVictoryGif = _victoryGifs[randomIndex];
+
+      if (_trucoData.pointsA >= 12) {
+        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeA, pointsA: 12);
+      } else {
+        _trucoData = _trucoData.copyWith(winner: true, winnerTeam: _trucoData.timeB, pointsB: 12);
+      }
+    }
+  }
+
+  void increaseTrucoValue() {
+    if (_roundValue == 1) {
+      _roundValue = 3;
+    } else if (_roundValue == 3) {
+      _roundValue = 6;
+    } else if (_roundValue == 6) {
+      _roundValue = 9;
+    } else if (_roundValue == 9) {
+      _roundValue = 12;
+    } else if (_roundValue == 12) {
+      _roundValue = 3;
+    }
+    notifyListeners();
+  }
+
+  void resetTrucoValue() {
+    _roundValue = 1;
+    notifyListeners();
+  }
+
   void increasePointsA() {
     if (_trucoData.pointsA < 12 && !_trucoData.winner) {
       int newPoints = _trucoData.pointsA + _roundValue;
-      if (newPoints > 12) newPoints = 12; // Cap at 12 points
+      if (newPoints > 12) newPoints = 12;
 
-      // 💡 OLHA COMO FICOU LIMPO: Altera apenas o pointsA! As outras propriedades permanecem salvas
       _trucoData = _trucoData.copyWith(pointsA: newPoints);
-
-      // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
       _checkWinner();
+      _salvarPontos();
       notifyListeners();
     }
   }
 
-  // Decrements Team A points (always by 1)
   void decreasePointsA() {
-    // Só deixa diminuir se ninguém tiver vencido o jogo ainda
     if (_trucoData.pointsA > 0 && !_trucoData.winner) {
       _trucoData = _trucoData.copyWith(pointsA: _trucoData.pointsA - 1);
+      _salvarPontos();
       notifyListeners();
     }
   }
 
-  // Increments Team B points using the current roundValue
   void increasePointsB() {
     if (_trucoData.pointsB < 12 && !_trucoData.winner) {
       int newPoints = _trucoData.pointsB + _roundValue;
-      if (newPoints > 12) newPoints = 12; // Cap at 12 points
+      if (newPoints > 12) newPoints = 12;
 
       _trucoData = _trucoData.copyWith(pointsB: newPoints);
-
-      // Automatically resets round value back to 1 after scoring
       _roundValue = 1;
       _checkWinner();
+      _salvarPontos();
       notifyListeners();
     }
   }
 
-  // Decrements Team B points (always by 1)
   void decreasePointsB() {
     if (_trucoData.pointsB > 0 && !_trucoData.winner) {
       _trucoData = _trucoData.copyWith(pointsB: _trucoData.pointsB - 1);
+      _salvarPontos();
       notifyListeners();
     }
   }
 
-  // 🔄 Função bônus para quando você quiser resetar o jogo para uma nova partida
   void restartGame() {
     _currentVictoryGif = "";
     _trucoData = TrucoModel(
@@ -208,6 +168,7 @@ class ScoreCounter extends ChangeNotifier {
       winnerTeam: "",
     );
     _roundValue = 1;
+    _salvarPontos();
     notifyListeners();
   }
 }
