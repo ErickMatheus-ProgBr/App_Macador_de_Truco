@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:marcador_de_truco/core/fonts/customFonts.dart';
 import 'package:marcador_de_truco/core/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:marcador_de_truco/features/home_truco/provider/animated_provider.dart';
 import 'package:marcador_de_truco/features/widgets/drawerWidget.dart';
 import 'package:marcador_de_truco/core/utils/media_query.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
@@ -23,10 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final txt = context.watch<ScoreCounter>();
-
+    final animated = context.watch<AnimatedProvider>();
     return Scaffold(
-      key: _scaffoldKey, // vincula a chave ao SCAFFOLD
-
+      // key: _scaffoldKey, // vincula a chave ao SCAFFOLD
       drawer: DrawerWidget(),
 
       // O drawer nativo fica aqui. Ele abre flutuando por cima da tela, sem ocupar o espaco fisico da tela
@@ -39,9 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 flex: 1,
                 child: Container(
                   color: ThemeColors.myThemeApp.colorScheme.primary,
-                  margin: EdgeInsets.zero,
-                  width: CustomMediaquery.width(context),
-                  height: CustomMediaquery.heightPorcentage(context, 100),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -113,8 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   color: ThemeColors.myThemeApp.colorScheme.secondary,
                   margin: EdgeInsets.zero,
-                  width: CustomMediaquery.width(context),
-                  height: CustomMediaquery.heightPorcentage(context, 100),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -176,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+          // Titulo Central Superior
           Positioned(
             top: 80,
             left: 0,
@@ -233,6 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
+          // Botões Menu (Drawer) - Uso de Builder para dispensar o globalKey
           Positioned(
             top: 50,
             left: 0,
@@ -248,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
+          // OOVERLAY DO VENCEDOR
           if (txt.trucoData.winner) ...[
             // Fundo escurecido semi-transparente para dar foco ao campeão
             Positioned.fill(child: Container(color: Colors.black.withOpacity(0.85))),
