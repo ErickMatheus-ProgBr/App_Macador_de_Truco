@@ -1,39 +1,43 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // 👈 1. IMPORTANTE: Importar o shared_preferences
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:marcador_de_truco/features/home_truco/provider/truco_provider.dart';
 
 void main() {
-  // 👇 2. ADICIONE ESTAS DUAS LINHAS AQUI NO TOPO DO MAIN:
+  // Garante o ambiente de testes do Flutter e mocka o SharedPreferences na memória
   TestWidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.setMockInitialValues(
-    {},
-  ); // Cria um armazenamento 'fake' na memória para os testes
+  SharedPreferences.setMockInitialValues({});
 
-  group('Testes de Pontuação do TrucoProvider', () {
+  group('Testes de Pontuação do ScoreCounter', () {
     test('O placar deve iniciar zerado (0 x 0)', () async {
-      final provider = TrucoProvider();
+      // 💡 Instancia o controller corretamente com parênteses ()
+      final provider = ScoreCounter();
 
-      expect(provider.pontosNos, 0);
-      expect(provider.pontosEles, 0);
+      expect(provider.trucoData.pointsA, 0);
+      expect(provider.trucoData.pointsB, 0);
     });
 
-    test('Deve somar 3 pontos para a dupla "Nós" quando acionado', () async {
-      final provider = TrucoProvider();
+    test('Deve incrementar os pontos do Time A quando acionado', () async {
+      final provider = ScoreCounter();
 
-      provider.adicionarPontosNos(3);
+      provider.increasePointsA();
 
-      expect(provider.pontosNos, 3);
+      // Ajuste o valor esperado de acordo com a quantidade de pontos que sua função soma
+      expect(provider.trucoData.pointsA, 1);
     });
 
     test('Deve zerar a pontuação de ambas as duplas ao reiniciar a partida', () async {
-      final provider = TrucoProvider();
-      provider.adicionarPontosNos(6);
-      provider.adicionarPontosEles(9);
+      final provider = ScoreCounter();
 
-      provider.reiniciarPartida();
+      // Simula uma partida com pontos
+      provider.increasePointsA();
+      provider.increasePointsB();
 
-      expect(provider.pontosNos, 0);
-      expect(provider.pontosEles, 0);
+      // Reinicia a partida
+      provider.restartGame();
+
+      expect(provider.trucoData.pointsA, 0);
+      expect(provider.trucoData.pointsB, 0);
+      expect(provider.trucoData.winner, false);
     });
   });
 }
