@@ -15,6 +15,4 @@ class CustomFonts {
 
   // Botões de incrementar(+1) e decrementar (-1)
   static TextStyle counter = GoogleFonts.bungee(fontSize: 26, fontWeight: FontWeight.bold);
-
-  static TextStyle btnLast = GoogleFonts.agdasima(fontSize: 25, fontWeight: FontWeight.bold);
 }
