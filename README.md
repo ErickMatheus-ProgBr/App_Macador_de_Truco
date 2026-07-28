@@ -33,15 +33,3 @@ Um aplicativo simples e intuitivo desenvolvido em Flutter para contagem e gerenc
    ```bash
    git clone [https://github.com/ErickMatheus-ProgBr/App_Macador_de_Truco.git](https://github.com/ErickMatheus-ProgBr/App_Macador_de_Truco.git)
 
-
-
-### 📄 Licença
-
-### 💡 Dica para atualizar o seu GitHub:
-1. Crie ou edite o arquivo `README.md` na raiz do seu projeto.
-2. Cole o código Markdown acima.
-3. Faça o commit e envie para o repositório:
-   ```bash
-   git add README.md
-   git commit -m "docs: adiciona README do projeto"
-   git push origin main
