@@ -9,7 +9,7 @@ Um aplicativo simples e intuitivo desenvolvido em Flutter para contagem e gerenc
 
 ## 📱 Demonstração
 
-![Demonstração do App](C:\Users\Erick Matheus\Desktop\Curso\Flutter_Basico\App_Truco\marcador_de_truco\assets\truco.gif
+![Demonstração do App](assets\truco.gif)
 
 
 ---
