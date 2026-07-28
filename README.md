@@ -1,3 +1,5 @@
+
+
 # 🃏 Marcador de Truco
 
 Um aplicativo simples e intuitivo desenvolvido em Flutter para contagem e gerenciamento de pontuações de partidas de Truco (Paulista e Mineiro).
