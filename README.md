@@ -9,9 +9,7 @@ Um aplicativo simples e intuitivo desenvolvido em Flutter para contagem e gerenc
 
 ## 📱 Demonstração
 
-https://github.com/user-attachments/assets/truco.webm
-
-
+<img src="marcador_de_truco/assets/truco.gif" width="300> 
 
 ---
 
