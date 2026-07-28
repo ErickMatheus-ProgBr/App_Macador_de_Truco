@@ -90,18 +90,24 @@ class ScoreCounter extends ChangeNotifier {
     }
   }
 
-  void increaseTrucoValue() {
+  void raiseTruco() {
     if (_roundValue == 1) {
       _roundValue = 3;
+      _trucoData = _trucoData.copyWith(btntruco: "SEIS!");
     } else if (_roundValue == 3) {
       _roundValue = 6;
+      _trucoData = _trucoData.copyWith(btntruco: "NOVE!");
     } else if (_roundValue == 6) {
       _roundValue = 9;
+      _trucoData = _trucoData.copyWith(btntruco: "DOZE!");
     } else if (_roundValue == 9) {
       _roundValue = 12;
-    } else if (_roundValue == 12) {
-      _roundValue = 3;
+      _trucoData = _trucoData.copyWith(btntruco: "MÃO DE 12!");
+    } else {
+      _roundValue = 1;
+      _trucoData = _trucoData.copyWith(btntruco: "TRUCOOOO!");
     }
+
     notifyListeners();
   }
 
